@@ -1,10 +1,16 @@
 function getDropDownList(parent,property){
-	for(i = 0 ; i<lesson.length; i++){
-		var val = lesson[i][property],
-		opt = document.createElement('option'),
-		txt = document.createTextNode(val);
+	var arr = [];
+	for(var i = 0 ; i<lesson.length; i++){
+		var val = lesson[i][property];
+		if(arr.indexOf(val)==-1){ // checks if value already in array?
+			arr.push(val);
+		}
+	}
+	for(var c=0; c<arr.length; c++){
+		var opt = document.createElement('option'),
+		txt = document.createTextNode(arr[c]);
 
-		opt.setAttribute('value', val);
+		opt.setAttribute('value', arr[c]);
 		opt.appendChild(txt);
 		parent.appendChild(opt);
 	}
@@ -27,7 +33,7 @@ function renderLesson(parent){
 	// 		<li class="lesson-question">NO.</li>
 	// 	</ul>
 	// </td>
-	for(i = 0; i<lesson.length; i++){
+	for(var i = 0; i<lesson.length; i++){
 		// create new row
 		var tr = document.createElement('tr');
 		tr.classList.add('lesson');
@@ -113,7 +119,7 @@ var filter = function(){
 		lesson_list = document.getElementsByClassName('lesson');
 
 		if(subject!==grade){ // if no value selected, then don't filter
-			for(i=0;i<lesson_list.length;i++){
+			for(var i=0;i<lesson_list.length;i++){
 				if(subject==lesson_list[i].children[1].value || grade==lesson_list[i].children[2].value){
 					lesson_list[i].classList.remove('hidden');
 				}
