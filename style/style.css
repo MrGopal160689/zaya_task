@@ -1,0 +1,162 @@
+@media all{
+	#search_lesson_btn{
+		width: 40px;
+		height: 25px;
+		background:url('../image/search-icon.png') no-repeat center center;
+		background-size: 16px;
+		background-color: #ccc;
+	}
+	#search_lesson_btn:hover{
+		background-color: #848774;
+	}
+	input[type='text']{
+		width: 40%;
+		height: 25px;
+		padding: 2px 5px;
+	}
+	select{
+		width: 35%;
+		height: 25px;
+		padding: 2px 5px;
+		margin-right: 4px;
+	}
+	.center{
+		width:850px;
+		margin: 0px auto;
+	}
+	.left,.right{
+		box-shadow: 2px 2px 10px rgba(180,180,180,1);
+		overflow:hidden;
+	}
+	.left{
+		margin: 0px 15px 10px 0px;
+		width: 38%;
+		height: 70%;
+	}
+	.right{
+		width: 58%;
+		height:98%;
+	}
+	.header{
+		height: 25px;
+	}
+	#lesson_list_wrapper{
+		max-height: 90%;
+		overflow-y:scroll;
+	}
+	#lesson_list{
+		width: 100%;
+		border-collapse: collapse;
+	}
+	#lesson_list tr:not(:last-child) td,#topic_list li:not(:last-child), .border-bottom{
+		border-bottom: 1px solid #ccc;
+	}
+	#lesson_list tr{
+		cursor: move;
+	}
+	.lesson-image{
+		width: 64px;
+		vertical-align: top;
+	}
+	.lesson-image-container{
+		width: 64px;
+		height: 64px;
+		background-color: #8D2E7A;
+	}
+	.lesson-metadata{
+		padding: 10px 0px 0px 0px;
+	}
+	.lesson-video{
+		background-image: url('../image/video-icon.png');
+	}
+	.lesson-document{
+		background-image: url('../image/document-icon.png');
+	}
+	.lesson-question{
+		background-image: url('../image/help-file-icon.png');
+	}
+	.lesson-video,.lesson-document,.lesson-question{
+		display: inline;
+		padding-left: 20px;
+		background-repeat: no-repeat;
+		background-position: left center;
+		background-size: 16px;
+	}
+	.drop-box{
+		text-align: center;
+		line-height: 30px;
+	}
+	.hi-drop-box,#lesson_list tr:hover{
+		background-color: #FEF9B1;
+	}
+	.hi-add-more{
+		background-color: #C4F0FF;
+	}
+	#topic_list{
+		width: 90%;
+		max-height: 86%;
+		padding:10px 0px 0px 30px;
+		overflow-y:scroll;
+		overflow-x:hidden;
+	}
+	#topic_list li{
+		height:30px;
+		padding: 3px 0px;
+		line-height: 30px;
+	}
+	#topic_list>ol{
+		padding:0px;
+		border-bottom:1px solid #000;
+		list-style-type: lower-alpha;
+	}
+	.delete_lesson_btn{
+		width:30px;
+		height: 30px;
+		background: url('../image/delete-icon.png') no-repeat center center;
+	}
+}
+@media all and (max-width: 840px){
+	.center{
+		width: 100%;
+	}
+	#topic_list{
+		width: 90%;
+	}
+	.lesson-image{
+		width: 50px;
+	}
+	.lesson-image-container{
+		width: 50px;
+		height: 50px;
+	}
+}
+@media all and (max-width: 500px){
+	.left,.right{
+		clear: both;
+		width: 99%;
+	}
+	.left{
+		height: 35%;	
+	}
+	.right{
+		height:60%;
+	}
+	#topic_list{
+		width: 85%;
+	}
+	.lesson-image{
+		width: 35px;
+	}
+	.lesson-image-container{
+		width: 35px;
+		height: 35px;
+	}
+	.lesson-metadata{
+		float: right;
+		padding-right: 10px;
+	}
+	.wrap-lesson{
+		float:left;
+		width: 50%;
+	}
+}
