@@ -53,6 +53,9 @@ body{
 .bck-white{
 	background-color: #fff;
 }
+.font-white{
+	color: #fff;
+}
 .list-style-none{
 	list-style-type: none;
 }

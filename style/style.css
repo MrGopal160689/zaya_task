@@ -1,4 +1,7 @@
 @media all{
+	#delete_topic_btn,#add_topic_btn{
+		background-color: #ccc;
+	}
 	#search_lesson_btn{
 		width: 40px;
 		height: 25px;

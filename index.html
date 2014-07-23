@@ -4,6 +4,45 @@
 		<link rel="stylesheet" type="text/css" href="style/style.css">
 		<script type="text/javascript" src="js/data.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>
+		<template id="template_lesson">
+			<tr class="lesson" draggable="true">
+				<input name="id" type="hidden" value="">
+				<input name="subject" type="hidden" value="">
+				<input name="grade" type="hidden" value="">
+				<td class="lesson-image pad-5">
+					<div class="transition lesson-image-container b-r-5"></div>
+				</td>
+				<td class="lesson-data pad-5">
+					<div class="wrap-lesson">
+						<div class="lesson-title"></div>
+						<div class="lesson-brief"></div>
+					</div>
+					<ul class="lesson-metadata m-0">
+					</ul>
+				</td>
+			</tr>
+		</template>
+		<template id="template_topic">
+			<li>
+				<input type="checkbox" name="check_lesson"><input type="text" placeholder="Topic name" class="b-1">
+			</li>
+			<ol>
+				<li class="list-style-none drop-box hi-drop-box">Add Lessons</li>
+				<li class="list-style-none hidden">
+					<label>Required Proficiency </label>
+					<select>
+						<option>Select</option>
+						<option>Graduate</option>
+					</select>
+				</li>
+			</ol>
+		</template>
+		<template id="template_added_lesson">
+			<li class="added-lessons">
+				<input name="id" type="hidden" value="">
+				<span class="delete_lesson_btn f-r c-p"></span>
+			</li>
+		</template>
 	</head>
 	<body class="font">
 		<div class="center">
@@ -23,7 +62,8 @@
 				</div>
 				<div id="lesson_list_wrapper">
 					<table id="lesson_list" class="font">
-						<tbody></tbody>
+						<tbody>
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -33,7 +73,10 @@
 					<input type="text" class="b-1" placeholder="Course Name">
 				</div>
 				<ol id="topic_list" class="m-0">
-					<lh>Topics</lh>
+					<lh>Topics
+						<button id="delete_topic_btn" class="f-r b-0 b-r-5 pad-5 font-white">Delete</button>
+						<button id="add_topic_btn" class="f-r b-0 b-r-5 pad-5 font-white">Add</button>
+					</lh>
 				</ol>
 			</div>
 		</div>
