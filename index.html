@@ -23,12 +23,12 @@
 			</tr>
 		</template>
 		<template id="template_topic">
-			<li>
+			<li class="pad-5">
 				<input type="checkbox" name="check_lesson"><input type="text" placeholder="Topic name" class="b-1">
 			</li>
-			<ol>
-				<li class="list-style-none drop-box hi-drop-box">Add Lessons</li>
-				<li class="list-style-none hidden">
+			<ol class="list-style-none">
+				<li class="drop-box hi-drop-box">Add Lessons</li>
+				<li class="pad-5 hidden text-center">
 					<label>Required Proficiency </label>
 					<select>
 						<option>Select</option>
@@ -38,7 +38,7 @@
 			</ol>
 		</template>
 		<template id="template_added_lesson">
-			<li class="added-lessons">
+			<li class="added-lessons list-style-none">
 				<input name="id" type="hidden" value="">
 				<span class="delete_lesson_btn f-r c-p"></span>
 			</li>
@@ -72,12 +72,15 @@
 					Create Course
 					<input type="text" class="b-1" placeholder="Course Name">
 				</div>
-				<ol id="topic_list" class="m-0">
-					<lh>Topics
+				<div class="topic-list-wrapper">
+					<div class="pad-5">	
+						Topics
 						<button id="delete_topic_btn" class="f-r b-0 b-r-5 pad-5 font-white">Delete</button>
 						<button id="add_topic_btn" class="f-r b-0 b-r-5 pad-5 font-white">Add</button>
-					</lh>
-				</ol>
+					</div>
+					<ol id="topic_list" class="m-0 list-style-none">
+					</ol>
+				</div>
 			</div>
 		</div>
 	</body>
