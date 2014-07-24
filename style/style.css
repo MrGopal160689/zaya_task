@@ -29,21 +29,27 @@
 		margin-right: 4px;
 	}
 	.center{
-		width:850px;
+		width:1000px;
 		margin: 0px auto;
 	}
+	#course_hirarchy{
+		width:97%;
+		max-height:25%;
+		box-shadow: 2px 2px 10px rgba(180,180,180,1);
+		overflow-y:scroll;
+	}
 	.left,.right{
+		margin: 0px 15px 10px 0px;
 		box-shadow: 2px 2px 10px rgba(180,180,180,1);
 		overflow:hidden;
 	}
 	.left{
-		margin: 0px 15px 10px 0px;
 		width: 38%;
 		height: 70%;
 	}
 	.right{
 		width: 58%;
-		height:98%;
+		height:70%;
 	}
 	.header{
 		height: 25px;
@@ -104,7 +110,7 @@
 	}
 	.topic-list-wrapper{
 		width: 95%;
-		max-height: 90%;
+		max-height: 80%;
 		padding: 0% 2%;
 		overflow-y:scroll;
 		overflow-x:hidden;
@@ -171,5 +177,8 @@
 	.wrap-lesson{
 		float:left;
 		width: 50%;
+	}
+	.topic-list-wrapper{
+		max-height: 75%;
 	}
 }

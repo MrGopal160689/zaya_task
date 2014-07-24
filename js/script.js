@@ -94,6 +94,7 @@ var deleteSelectedTopic = function(){
 			var li = checked[i].parentNode, ol = li.nextElementSibling;
 			li.remove();
 			ol.remove();
+			updateHirarchy();
 		}
 		else{
 			alert('Cannot delete topic with lessons !!');
@@ -106,6 +107,7 @@ var deleteLesson = function(event){
 		var id = event.target.parentNode.querySelector('input[name=id]').getAttribute('value');
 		deleteArrElem(lesson_added,id);
 		event.target.parentNode.remove();
+		updateHirarchy();
 	}
 }
 function EmptyContainer(){
@@ -121,12 +123,15 @@ function addNewTopic(target){
 	if(EmptyContainer()){
 		var template_topic = document.getElementById('template_topic'),
 		clone_topic = document.importNode(template_topic.content, true);
+		clone_topic.querySelector('input[name=topicname]').addEventListener('blur',function(){
+			updateHirarchy();
+		})
 		target.appendChild(clone_topic);
+		updateHirarchy();
 	}
 	else{
 		alert('Cannot add more than one empty container.');
 	}
-	
 }
 function getSubject(id){
 	for(var i=0;i<lesson.length;i++){
@@ -152,12 +157,14 @@ function fillContainer(target, id){
 			target.parentNode.lastElementChild.classList.remove('hidden');
 		}
 		lesson_added.push(id);
+		updateHirarchy();
 	}
 	else{
 		// show error
 		alert(getSubject(id)+" already exists!!");
 	}
 }
+
 var dragstart = function(event){
 		var ref = event.target;
 		if(ref.classList.contains('lesson')){
@@ -173,7 +180,43 @@ var drop = function(event){
 			fillContainer(tar,id);
 		}
 	}
+function updateHirarchy(){
+	var tar = document.querySelector('#course_hirarchy');
+	div = document.createElement('div'),
+	course = document.querySelector('input[name=coursename]').value.trim(),
+	topics = document.querySelectorAll('input[name=topicname]'),
+	ol = document.createElement('ol'),
+	lh = document.createElement('lh'),
+	lh_txt = document.createTextNode((course =="")?'Course Name':'Course : '+course);
 
+	lh.appendChild(lh_txt);
+	ol.appendChild(lh);
+	for(var i=0;i<topics.length;i++){
+		var lessons = topics[i].parentNode.nextElementSibling.querySelectorAll('.added-lessons');
+		li_t = document.createElement('li'),
+		li_txt = document.createTextNode((topics[i].value.trim()=="")?'Topic Name':topics[i].value.trim()),
+		ul = document.createElement('ul');
+		
+		li_t.appendChild(li_txt);
+		ol.appendChild(li_t);
+		for(var c=0;c<lessons.length;c++){
+			var ul_li = document.createElement('li'),
+			l = document.createTextNode(lessons[c].textContent.trim());
+
+			ul_li.appendChild(l);
+			ul.appendChild(ul_li);
+		}
+		ol.appendChild(ul);
+		div.appendChild(ol);
+		
+	}
+	if(tar.children.length){
+		tar.replaceChild(div,tar.firstElementChild);
+	}
+	else{
+		tar.appendChild(div);
+	}
+}
 window.onload = function(){
 	addNewTopic(document.getElementById('topic_list'));
 	renderLesson(document.getElementById('lesson_list').firstElementChild);
@@ -190,4 +233,8 @@ window.onload = function(){
 		addNewTopic(document.getElementById('topic_list'));
 	});
 	document.getElementById('delete_topic_btn').addEventListener('click', deleteSelectedTopic);
+
+	document.querySelector('input[name=coursename]').addEventListener('blur',function(){
+		updateHirarchy();
+	});
 };

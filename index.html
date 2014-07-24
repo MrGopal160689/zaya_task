@@ -24,7 +24,7 @@
 		</template>
 		<template id="template_topic">
 			<li class="pad-5">
-				<input type="checkbox" name="check_lesson"><input type="text" placeholder="Topic name" class="b-1">
+				<input type="checkbox" name="check_lesson"><input type="text" placeholder="Topic name" name="topicname" class="b-1">
 			</li>
 			<ol class="list-style-none">
 				<li class="drop-box hi-drop-box">Add Lessons</li>
@@ -70,7 +70,7 @@
 			<div id="right_section" class="right b-r-5 f-l b-1 bck-white transition">
 				<div class="header pad-5 border-bottom">
 					Create Course
-					<input type="text" class="b-1" placeholder="Course Name">
+					<input type="text" name="coursename" class="b-1" placeholder="Course Name">
 				</div>
 				<div class="pad-5 border-bottom cta-btn">	
 					Topics
@@ -81,6 +81,8 @@
 					<ol id="topic_list" class="m-0 list-style-none">
 					</ol>
 				</div>
+			</div>
+			<div id="course_hirarchy" class="bck-white pad-5 f-l b-r-5">
 			</div>
 		</div>
 	</body>
