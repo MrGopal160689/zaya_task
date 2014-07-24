@@ -108,10 +108,25 @@ var deleteLesson = function(event){
 		event.target.parentNode.remove();
 	}
 }
+function EmptyContainer(){
+	var par = document.querySelectorAll('#topic_list>ol');
+	for(var i=0;i<par.length;i++){
+		if(par[i].querySelectorAll('.added-lessons').length==0){
+			return false;
+		}
+	}
+	return true;
+}
 function addNewTopic(target){
-	var template_topic = document.getElementById('template_topic'),
-	clone_topic = document.importNode(template_topic.content, true);
-	target.appendChild(clone_topic);
+	if(EmptyContainer()){
+		var template_topic = document.getElementById('template_topic'),
+		clone_topic = document.importNode(template_topic.content, true);
+		target.appendChild(clone_topic);
+	}
+	else{
+		alert('Cannot add more than one empty container.');
+	}
+	
 }
 function getSubject(id){
 	for(var i=0;i<lesson.length;i++){
