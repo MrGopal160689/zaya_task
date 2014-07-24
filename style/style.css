@@ -1,6 +1,11 @@
 @media all{
 	#delete_topic_btn,#add_topic_btn{
 		background-color: #ccc;
+		margin: 0px 2px;
+		cursor: pointer;
+	}
+	#delete_topic_btn:hover,#add_topic_btn:hover{
+		background-color:#848774; 
 	}
 	#search_lesson_btn{
 		width: 40px;
@@ -98,11 +103,14 @@
 		background-color: #C4F0FF;
 	}
 	.topic-list-wrapper{
-		width: 96%;
+		width: 95%;
 		max-height: 90%;
 		padding: 0% 2%;
 		overflow-y:scroll;
 		overflow-x:hidden;
+	}
+	.cta-btn{
+		height:30px;line-height:30px;
 	}
 	#topic_list{
 		width: 100%;
