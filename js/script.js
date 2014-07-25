@@ -164,6 +164,7 @@ function fillContainer(target, id){
 		alert(getSubject(id)+" already exists!!");
 	}
 }
+
 var dragstart = function(event){
 		var ref = event.target;
 		if(ref.classList.contains('lesson')){
@@ -192,7 +193,7 @@ function updateHirarchy(){
 		li_t = document.createElement('li'),
 		ul = document.createElement('ul');
 		li_t.textContent = (topics[i].value.trim()=="")?'Topic Name':topics[i].value.trim();
-
+		
 		for(var c=0;c<lessons.length;c++){
 			var ul_li = document.createElement('li');
 			ul_li.textContent = lessons[c].textContent.trim();
