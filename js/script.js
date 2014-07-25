@@ -19,7 +19,7 @@ function getDropDownList(parent,property){
 }
 function renderLesson(parent){
 	for(var i = 0; i<lesson.length; i++){
-		var clone_lesson = document.importNode(document.getElementById('template_lesson').content, true),
+		var clone_lesson = document.importNode(document.querySelector('#template_lesson').content, true),
 		ul_d = clone_lesson.querySelector('.lesson-metadata');
 
 		// set values
@@ -53,8 +53,8 @@ function renderLesson(parent){
 	}
 }
 var filter = function(){
-		var subject = document.getElementById('select_lesson').value,
-		grade = document.getElementById('select_grade').value,
+		var subject = document.querySelector('#select_lesson').value,
+		grade = document.querySelector('select_grade').value,
 		lesson_list = document.querySelectorAll('.lesson');
 
 		if(subject!='null' && grade!='null'){ // check if both are selected
@@ -121,7 +121,7 @@ function EmptyContainer(){
 }
 function addNewTopic(target){
 	if(EmptyContainer()){
-		var template_topic = document.getElementById('template_topic'),
+		var template_topic = document.querySelector('#template_topic'),
 		clone_topic = document.importNode(template_topic.content, true);
 		clone_topic.querySelector('input[name=topicname]').addEventListener('blur',function(){
 			updateHirarchy();
@@ -142,7 +142,7 @@ function getSubject(id){
 }
 function fillContainer(target, id){
 	if(lesson_added.indexOf(id)==-1){ // check if lesson already added ?
-		var li_l = document.importNode(document.getElementById('template_added_lesson').content, true),
+		var li_l = document.importNode(document.querySelector('#template_added_lesson').content, true),
 		sub = document.createTextNode(getSubject(id));
 		// set values
 		li_l.querySelector('input[name=id]').setAttribute('value',id);
@@ -164,7 +164,6 @@ function fillContainer(target, id){
 		alert(getSubject(id)+" already exists!!");
 	}
 }
-
 var dragstart = function(event){
 		var ref = event.target;
 		if(ref.classList.contains('lesson')){
@@ -181,58 +180,50 @@ var drop = function(event){
 		}
 	}
 function updateHirarchy(){
-	var tar = document.querySelector('#course_hirarchy');
-	div = document.createElement('div'),
+	var tar = document.querySelector('#course_hirarchy'),
 	course = document.querySelector('input[name=coursename]').value.trim(),
 	topics = document.querySelectorAll('input[name=topicname]'),
-	ol = document.createElement('ol'),
-	lh = document.createElement('lh'),
-	lh_txt = document.createTextNode((course =="")?'Course Name':'Course : '+course);
+	clone = document.importNode(document.querySelector('#template_ol').content,true),
+	ol = clone.querySelector('ol');
+	clone.querySelector('lh').textContent = (course =='')?'Course Name':'Course : '+course;
 
-	lh.appendChild(lh_txt);
-	ol.appendChild(lh);
 	for(var i=0;i<topics.length;i++){
 		var lessons = topics[i].parentNode.nextElementSibling.querySelectorAll('.added-lessons');
 		li_t = document.createElement('li'),
-		li_txt = document.createTextNode((topics[i].value.trim()=="")?'Topic Name':topics[i].value.trim()),
 		ul = document.createElement('ul');
-		
-		li_t.appendChild(li_txt);
-		ol.appendChild(li_t);
-		for(var c=0;c<lessons.length;c++){
-			var ul_li = document.createElement('li'),
-			l = document.createTextNode(lessons[c].textContent.trim());
+		li_t.textContent = (topics[i].value.trim()=="")?'Topic Name':topics[i].value.trim();
 
-			ul_li.appendChild(l);
+		for(var c=0;c<lessons.length;c++){
+			var ul_li = document.createElement('li');
+			ul_li.textContent = lessons[c].textContent.trim();
 			ul.appendChild(ul_li);
 		}
+		ol.appendChild(li_t);
 		ol.appendChild(ul);
-		div.appendChild(ol);
-		
 	}
 	if(tar.children.length){
-		tar.replaceChild(div,tar.firstElementChild);
+		tar.replaceChild(clone,tar.firstElementChild);
 	}
 	else{
-		tar.appendChild(div);
+		tar.appendChild(clone);
 	}
 }
 window.onload = function(){
-	addNewTopic(document.getElementById('topic_list'));
-	renderLesson(document.getElementById('lesson_list').firstElementChild);
-	getDropDownList(document.getElementById('select_lesson'), 'subject');
-	getDropDownList(document.getElementById('select_grade'), 'grade');
-	document.getElementById('search_lesson_btn').addEventListener('click', filter);
+	addNewTopic(document.querySelector('#topic_list'));
+	renderLesson(document.querySelector('#lesson_list').firstElementChild);
+	getDropDownList(document.querySelector('#select_lesson'), 'subject');
+	getDropDownList(document.querySelector('#select_grade'), 'grade');
+	document.querySelector('#search_lesson_btn').addEventListener('click', filter);
 	document.addEventListener('dragstart', dragstart);
 	document.addEventListener('dragover',function(event){
 		event.preventDefault();
 	});
 	document.addEventListener('drop', drop);
 	document.addEventListener('click', deleteLesson);
-	document.getElementById('add_topic_btn').addEventListener('click', function(){
-		addNewTopic(document.getElementById('topic_list'));
+	document.querySelector('#add_topic_btn').addEventListener('click', function(){
+		addNewTopic(document.querySelector('#topic_list'));
 	});
-	document.getElementById('delete_topic_btn').addEventListener('click', deleteSelectedTopic);
+	document.querySelector('#delete_topic_btn').addEventListener('click', deleteSelectedTopic);
 
 	document.querySelector('input[name=coursename]').addEventListener('blur',function(){
 		updateHirarchy();
