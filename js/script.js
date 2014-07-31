@@ -54,7 +54,7 @@ function renderLesson(parent){
 }
 var filter = function(){
 		var subject = document.querySelector('#select_lesson').value,
-		grade = document.querySelector('select_grade').value,
+		grade = document.querySelector('#select_grade').value,
 		lesson_list = document.querySelectorAll('.lesson');
 
 		if(subject!='null' && grade!='null'){ // check if both are selected
