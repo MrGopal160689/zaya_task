@@ -2,93 +2,84 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="style/common.css">
 		<link rel="stylesheet" type="text/css" href="style/style.css">
-		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>
-		<template id="template_lesson">
-			<tr class="lesson" draggable="true">
-				<input name="id" type="hidden" value="">
-				<input name="subject" type="hidden" value="">
-				<input name="grade" type="hidden" value="">
-				<td class="lesson-image pad-5">
-					<div class="transition lesson-image-container b-r-5"></div>
-				</td>
-				<td class="lesson-data pad-5">
-					<div class="wrap-lesson">
-						<div class="lesson-title"></div>
-						<div class="lesson-brief"></div>
-					</div>
-					<ul class="lesson-metadata m-0">
-					</ul>
-				</td>
-			</tr>
-		</template>
-		<template id="template_topic">
-			<li class="pad-5">
-				<input type="checkbox" name="check_lesson"><input type="text" placeholder="Topic name" name="topicname" class="b-1">
-			</li>
-			<ol class="list-style-none">
-				<li class="drop-box hi-drop-box">Add Lessons</li>
-				<li class="pad-5 hidden text-center">
-					<label>Required Proficiency </label>
-					<select>
-						<option>Select</option>
-						<option>Graduate</option>
-					</select>
-				</li>
-			</ol>
-		</template>
-		<template id="template_added_lesson">
-			<li class="added-lessons list-style-none">
-				<input name="id" type="hidden" value="">
-				<span class="delete_lesson_btn f-r c-p"></span>
-			</li>
-		</template>
-		<template id="template_ol">
-			<ol>
-				<lh></lh>
-			</ol>
-		</template>
 	</head>
-	<body class="font">
+	<body class="font" ng-app="zaya" ng-controller="mainController">
 		<div class="center">
-			<div id="left_section" class="left b-1 b-r-5 f-l bck-white transition">
+			<div id="left_section" class="left b-1 b-r-5 f-l bck-white transition" ng-controller="lessonController">
 				<div id="search_wrapper" class="header border-bottom pad-5">
-					<select id="select_lesson" class="f-l b-1">
-						<option class="hidden" value="null" disabled selected>
-							Select lesson
-						</option>
+					<select id="select_lesson" class="f-l b-1" ng-model="subject" ng-options="sub for sub in subjectList">
+						<option value="">All Subjects</option>
 					</select>
-					<select id="select_grade" class="f-l b-1">
-						<option class="hidden" value="null" disabled selected>
-							Select grade
-						</option>
+					<select id="select_grade" class="f-l b-1" ng-model="grade" ng-options="grad for grad in gradeList">
+						<option value="">All Grades</option>
 					</select>
 					<button id="search_lesson_btn" class="b-r-5 f-r c-p b-0"></button>
 				</div>
 				<div id="lesson_list_wrapper">
 					<table id="lesson_list" class="font">
 						<tbody>
+							<tr class="lesson" ng-repeat="row in lessonlist | filter:filterLesson" draggable="true">
+								<input name="id" type="hidden" value="{{ row.id }}">
+								<input name="subject" type="hidden" value="{{ row.subject }}">
+								<input name="grade" type="hidden" value="{{ row.grade }}">
+								<td class="lesson-image pad-5">
+									<div class="transition lesson-image-container b-r-5"></div>
+								</td>
+								<td class="lesson-data pad-5">
+									<div class="wrap-lesson">
+										<div class="lesson-title">{{ row.title }}</div>
+										<div class="lesson-brief">{{ row.subject }} Grade {{ row.grade }} </div>
+									</div>
+									<ul class="lesson-metadata m-0">
+										<li class="lesson-video" ng-show="row.noOfVideos">{{ row.noOfVideos }}</li>
+										<li class="lesson-document" ng-show="row.noOfDocuments">{{ row.noOfDocuments }}</li>
+										<li class="lesson-question" ng-show="row.noOfQuestions">{{ row.noOfQuestions }}</li>
+									</ul>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
-			<div id="right_section" class="right b-r-5 f-l b-1 bck-white transition">
+			<div id="right_section" class="right b-r-5 f-l b-1 bck-white transition" ng-controller="courseController">
 				<div class="header pad-5 border-bottom">
 					Create Course
-					<input type="text" name="coursename" class="b-1" placeholder="Course Name">
+					<input type="text" name="coursename" ng-model="course.name" class="b-1" placeholder="Course Name">
 				</div>
 				<div class="pad-5 border-bottom cta-btn">	
 					Topics
-					<button id="delete_topic_btn" class="f-r b-0 b-r-5 pad-5 font-white">Delete</button>
-					<button id="add_topic_btn" class="f-r b-0 b-r-5 pad-5 font-white">Add</button>
+					<button id="delete_topic_btn" ng-click="deleteTopic()" class="f-r b-0 b-r-5 pad-5 font-white">Delete</button>
+					<button id="add_topic_btn" ng-click="addTopic()" class="f-r b-0 b-r-5 pad-5 font-white">Add</button>
 				</div>
 				<div class="topic-list-wrapper">
 					<ol id="topic_list" class="m-0 list-style-none">
+						<li class="pad-5" ng-repeat="topic in course.topics">
+							<input type="checkbox" name="check_lesson" value="{{ $index }}"><input type="text" placeholder="Topic name" name="topicname" ng-model="topic.name" class="b-1">
+							<ol class="list-style-none">
+								<li class="added-lessons list-style-none" ng-repeat="lesson in topic.lessonList track by $index">
+									{{ lesson.subject }}
+									<span class="delete_lesson_btn f-r c-p" ng-click="deleteLesson($parent.$index,lesson.id)"></span>
+								</li>
+							</ol>
+							<div class="drop-box hi-drop-box"><input type="hidden" name="topicindex" value="{{ $index }}">Add Lessons</div>
+						</li>
+						
 					</ol>
 				</div>
 			</div>
 			<div id="course_hirarchy" class="bck-white pad-5 b-r-5 f-l">
+				<ol>
+					<lh>{{ course.name }}</lh>
+					<li ng-repeat="topic in course.topics">{{ topic.name }}
+						<ul>
+							<li ng-repeat="lesson in topic.lessonList track by $index">{{ lesson.subject }}</li>
+						</ul>
+					</li>
+				</ol>
 			</div>
 		</div>
 	</body>
 </html>
+

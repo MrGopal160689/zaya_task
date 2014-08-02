@@ -1,232 +1,121 @@
-var lesson_added = [];
-
-function getDropDownList(parent,property){
-	var arr = [];
-	for(var i = 0 ; i<lesson.length; i++){
-		var val = lesson[i][property];
-		if(arr.indexOf(val)==-1){ // checks if value already in array?
-			arr.push(val);
-		}
-	}
-	for(var c=0; c<arr.length; c++){
-		var opt = document.createElement('option'),
-		txt = document.createTextNode(arr[c]);
-
-		opt.setAttribute('value', arr[c]);
-		opt.appendChild(txt);
-		parent.appendChild(opt);
-	}
-}
-function renderLesson(parent){
-	for(var i = 0; i<lesson.length; i++){
-		var clone_lesson = document.importNode(document.querySelector('#template_lesson').content, true),
-		ul_d = clone_lesson.querySelector('.lesson-metadata');
-
-		// set values
-		clone_lesson.querySelector('input[name=id]').setAttribute('value',lesson[i]['id']);
-		clone_lesson.querySelector('input[name=subject]').setAttribute('value',lesson[i]['subject']);
-		clone_lesson.querySelector('input[name=grade]').setAttribute('value',lesson[i]['grade']);
-		clone_lesson.querySelector('.lesson-title').textContent = lesson[i]['title'];
-		clone_lesson.querySelector('.lesson-brief').textContent = lesson[i]['subject']+" | Grade -"+lesson[i]['grade'];
-
-		//show videos, docs and questions, if not zero
-		if(lesson[i]['noOfVideos'] != '0'){
-			var li_v = document.createElement('li');
-			li_v.classList.add('lesson-video');
-			li_v.textContent = lesson[i]['noOfVideos'];
-			ul_d.appendChild(li_v);
-		}
-		if(lesson[i]['noOfDocuments'] != '0'){
-			var li_d = document.createElement('li');
-			li_d.classList.add('lesson-document');
-			li_d.textContent = lesson[i]['noOfDocuments'];
-			ul_d.appendChild(li_d);
-		}
-		if(lesson[i]['noOfQuestions'] != '0'){
-			var li_q = document.createElement('li');
-			li_q.classList.add('lesson-question');
-			li_q.textContent = lesson[i]['noOfQuestions'];
-			ul_d.appendChild(li_q);
-		}
-		//complete the append of tr to tbody
-		parent.appendChild(clone_lesson);
-	}
-}
-var filter = function(){
-		var subject = document.querySelector('#select_lesson').value,
-		grade = document.querySelector('#select_grade').value,
-		lesson_list = document.querySelectorAll('.lesson');
-
-		if(subject!='null' && grade!='null'){ // check if both are selected
-			for(var i=0;i<lesson_list.length;i++){
-				if(subject==lesson_list[i].querySelector('input[name=subject]').value && grade==lesson_list[i].querySelector('input[name=grade]').value){
-					lesson_list[i].classList.remove('hidden');
-				}
-				else{
-					lesson_list[i].classList.add('hidden');	
-				}
-			}
-		}
-		else if(subject!='null' || grade!='null'){ // check if any of them are selected
-			for(var i=0;i<lesson_list.length;i++){
-				if(subject==lesson_list[i].querySelector('input[name=subject]').value || grade==lesson_list[i].querySelector('input[name=grade]').value){
-					lesson_list[i].classList.remove('hidden');
-				}
-				else{
-					lesson_list[i].classList.add('hidden');	
-				}
-			}
-		}
-		else{
-			// if no value selected, then don't filter
-		}
-		
-	}
-function deleteArrElem(arr,value){
-	arr.splice(arr.indexOf(value),1);
-}
-var deleteSelectedTopic = function(){
-	var checked = document.querySelectorAll('input[name=check_lesson]:checked');
-	for(var i=0;i<checked.length;i++){
-		var list = checked[i].parentNode.nextElementSibling.querySelectorAll('.added-lessons');
-		if(list.length == 0){
-			//remove lesson element
-			var li = checked[i].parentNode, ol = li.nextElementSibling;
-			li.remove();
-			ol.remove();
-			updateHirarchy();
-		}
-		else{
-			alert('Cannot delete topic with lessons !!');
-		}
-	}
-
-}
-var deleteLesson = function(event){
-	if(event.target.classList.contains('delete_lesson_btn')){
-		var id = event.target.parentNode.querySelector('input[name=id]').getAttribute('value');
-		deleteArrElem(lesson_added,id);
-		event.target.parentNode.remove();
-		updateHirarchy();
-	}
-}
-function EmptyContainer(){
-	var par = document.querySelectorAll('#topic_list>ol');
-	for(var i=0;i<par.length;i++){
-		if(par[i].querySelectorAll('.added-lessons').length==0){
-			return false;
-		}
-	}
-	return true;
-}
-function addNewTopic(target){
-	if(EmptyContainer()){
-		var template_topic = document.querySelector('#template_topic'),
-		clone_topic = document.importNode(template_topic.content, true);
-		clone_topic.querySelector('input[name=topicname]').addEventListener('blur',function(){
-			updateHirarchy();
-		})
-		target.appendChild(clone_topic);
-		updateHirarchy();
-	}
-	else{
-		alert('Cannot add more than one empty container.');
-	}
-}
-function getSubject(id){
-	for(var i=0;i<lesson.length;i++){
-		if(lesson[i]['id']==id){
-			return lesson[i]['subject'];
-		}
-	}
-}
-function fillContainer(target, id){
-	if(lesson_added.indexOf(id)==-1){ // check if lesson already added ?
-		var li_l = document.importNode(document.querySelector('#template_added_lesson').content, true),
-		sub = document.createTextNode(getSubject(id));
-		// set values
-		li_l.querySelector('input[name=id]').setAttribute('value',id);
-		li_l.firstElementChild.insertBefore(sub,li_l.querySelector('delete_lesson_btn'));
-		//append lesson
-		target.parentNode.insertBefore(li_l,target);
-		
-		if(target.parentNode.children.length - 2 == 1){
-			target.textContent = "Drag to add more";
-			target.classList.remove('hi-drop-box');
-			target.classList.add('hi-add-more');
-			target.parentNode.lastElementChild.classList.remove('hidden');
-		}
-		lesson_added.push(id);
-		updateHirarchy();
-	}
-	else{
-		// show error
-		alert(getSubject(id)+" already exists!!");
-	}
-}
-
-var dragstart = function(event){
+// angular implementation
+var zaya_app = angular.module('zaya',[]);
+zaya_app.controller('mainController',function($scope){
+	$scope.lessonlist = [
+	{id : 1, title : "Lorem Ipsum", subject : "Math", grade : 1, noOfVideos : 1, noOfDocuments : 1, noOfQuestions : 2},
+	{id : 2, title : "Advanced Lorem Ipsum", subject : "Math", grade : 2, noOfVideos : 1, noOfDocuments : 0, noOfQuestions : 1},
+	{id : 3, title : "Lorem Ipsum", subject : "English", grade : 1, noOfVideos : 0, noOfDocuments : 1, noOfQuestions : 1},
+	{id : 4, title : "Lorem Ipsum", subject : "Science", grade : 1, noOfVideos : 1, noOfDocuments : 1, noOfQuestions : 2},
+	{id : 5, title : "Lorem Ipsum", subject : "Computers", grade : 2, noOfVideos : 1, noOfDocuments : 1, noOfQuestions : 1},
+	{id : 6, title : "Lorem Ipsum", subject : "Biology", grade : 3, noOfVideos : 9, noOfDocuments : 22, noOfQuestions : 0},
+	{id : 7, title : "Lorem Ipsum", subject : "Java", grade : 2, noOfVideos : 203, noOfDocuments : 0, noOfQuestions : 1}
+	];
+	$scope.course = {};
+	$scope.lesson_added = [];
+	document.addEventListener('dragstart', function(event){
 		var ref = event.target;
 		if(ref.classList.contains('lesson')){
 			var ref_id = ref.querySelector('input[name=id]').value;
 			event.dataTransfer.setData('text/plain',ref_id);
 		}
-	}
-var drop = function(event){
-		event.preventDefault();
-		var tar = event.target;
-		if(tar.classList.contains('drop-box')){
-			var id = event.dataTransfer.getData('text/plain');
-			fillContainer(tar,id);
-		}
-	}
-function updateHirarchy(){
-	var tar = document.querySelector('#course_hirarchy'),
-	course = document.querySelector('input[name=coursename]').value.trim(),
-	topics = document.querySelectorAll('input[name=topicname]'),
-	clone = document.importNode(document.querySelector('#template_ol').content,true),
-	ol = clone.querySelector('ol');
-	clone.querySelector('lh').textContent = (course =='')?'Course Name':'Course : '+course;
-
-	for(var i=0;i<topics.length;i++){
-		var lessons = topics[i].parentNode.nextElementSibling.querySelectorAll('.added-lessons');
-		li_t = document.createElement('li'),
-		ul = document.createElement('ul');
-		li_t.textContent = (topics[i].value.trim()=="")?'Topic Name':topics[i].value.trim();
-		
-		for(var c=0;c<lessons.length;c++){
-			var ul_li = document.createElement('li');
-			ul_li.textContent = lessons[c].textContent.trim();
-			ul.appendChild(ul_li);
-		}
-		ol.appendChild(li_t);
-		ol.appendChild(ul);
-	}
-	if(tar.children.length){
-		tar.replaceChild(clone,tar.firstElementChild);
-	}
-	else{
-		tar.appendChild(clone);
-	}
-}
-window.onload = function(){
-	addNewTopic(document.querySelector('#topic_list'));
-	renderLesson(document.querySelector('#lesson_list').firstElementChild);
-	getDropDownList(document.querySelector('#select_lesson'), 'subject');
-	getDropDownList(document.querySelector('#select_grade'), 'grade');
-	document.querySelector('#search_lesson_btn').addEventListener('click', filter);
-	document.addEventListener('dragstart', dragstart);
+	});
 	document.addEventListener('dragover',function(event){
 		event.preventDefault();
 	});
-	document.addEventListener('drop', drop);
-	document.addEventListener('click', deleteLesson);
-	document.querySelector('#add_topic_btn').addEventListener('click', function(){
-		addNewTopic(document.querySelector('#topic_list'));
-	});
-	document.querySelector('#delete_topic_btn').addEventListener('click', deleteSelectedTopic);
+	
+});
+zaya_app.controller('lessonController',function($scope){
+	$scope.subject = null;
+	$scope.grade = null;
+	$scope.getUniqueArr = function(property){
+		var arr = [];
+		for(var i = 0 ; i<$scope.lessonlist.length; i++){
+			var val = $scope.lessonlist[i][property];
+			if(arr.indexOf(val)==-1){
+				arr.push(val);
+			}
+		}
+		return arr;
+	};
+	$scope.subjectList = $scope.getUniqueArr('subject');
+	$scope.gradeList = $scope.getUniqueArr('grade');
 
-	document.querySelector('input[name=coursename]').addEventListener('blur',function(){
-		updateHirarchy();
+	$scope.filterLesson = function(row){
+		if($scope.subject!== null && $scope.grade!== null){ 
+			return $scope.subject==row.subject && $scope.grade==row.grade;
+		}
+		else if($scope.subject!== null || $scope.grade!== null){ 
+			return $scope.subject==row.subject || $scope.grade==row.grade;
+		}
+		else{
+			return true;
+		}
+	}
+});
+
+zaya_app.controller('courseController',function($scope){
+	$scope.course.name = 'Course Name 1';
+	$scope.course.topics = [];
+
+	$scope.addTopic = function(){
+		if(!$scope.findEmptyTopic()){
+			var topic = {
+				name:'Topic name',
+				lessonList:[]
+			}
+			$scope.course.topics.push(topic);
+		}
+		else{
+			alert('Cannot add more than one empty topic');
+		}
+	};
+	$scope.deleteTopic = function(){
+		var checked = document.querySelectorAll('input[name=check_lesson]:checked');
+		for(var i=0;i<checked.length;i++){
+			if($scope.course.topics[checked[i].value].lessonList.length==0){
+				$scope.course.topics.splice((checked[i].value),1);
+			}
+			else{
+				alert('Cannot delete topic with lessons !!');
+			}
+		}
+	};
+	$scope.addLesson = function(topicindex,lessonid){
+		if($scope.lesson_added.indexOf(lessonid)==-1){
+			$scope.course.topics[topicindex].lessonList.push($scope.getLessonObj(lessonid));
+			$scope.lesson_added.push(lessonid);
+			$scope.$apply();
+		}
+		else{
+			alert($scope.getLessonObj(lessonid)['subject']+' already added');
+		}
+	};
+	$scope.deleteLesson = function(topicindex,lessonid){
+		var arr = $scope.course.topics[topicindex].lessonList;
+		arr.splice(arr.indexOf($scope.getLessonObj(lessonid)),1);
+		$scope.lesson_added.splice($scope.lesson_added.indexOf(lessonid.toString()),1);
+	};
+	$scope.getLessonObj = function(lessonid){
+		for(var i=0;i<$scope.lessonlist.length;i++){
+			if($scope.lessonlist[i]['id']==lessonid){
+				return $scope.lessonlist[i];
+			}
+		}
+	};
+	$scope.findEmptyTopic = function(){
+		for(var c=0;c<$scope.course.topics.length;c++){
+			if($scope.course.topics[c].lessonList.length == 0){
+				return true;
+			}
+		}
+		return false;
+	}
+	document.addEventListener('drop', function(event){
+		event.preventDefault();
+		if(event.target.classList.contains('drop-box')){
+			var lessonid = event.dataTransfer.getData('text/plain');
+			var topicindex = event.target.querySelector('input[name=topicindex]').value;
+			$scope.addLesson(topicindex,lessonid);
+		}
 	});
-};
+});
