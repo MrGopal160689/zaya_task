@@ -1,69 +1,20 @@
 @media all{
-	#msg{
-		padding:15px;
-	}
-	#create-btn-wrapper{
-		height:30px;
-	}
-	.create-btn{
-		padding: 10px 15px;
-		margin-right: 15px;
-	}
-	#delete_topic_btn{
-		background: url('../image/delete-icon.png') no-repeat 5px center;
-		padding-left:25px;
-	}
-	#add_topic_btn{
-		width: 55px;
-		margin: 10px;
-		padding-left:25px;
-		background:url('../image/add-icon.png') no-repeat 5px center;
-	}
-	#search_wrapper{
-		background:url('../image/search-2-icon.png') #fff no-repeat 99% center;
-	}
 	#top_header{
 		height: 50px;
 		background: url('../image/zaya-logo.png') #009de2 no-repeat 10px center;
 		background-size:auto 30px;
 	}
-	.topic-name-wrapper{
-		height:30px;
-		margin:10px;
-		padding:0px 5px;
-		line-height:30px;
+	#msg{
+		padding:15px;
 	}
-	.course-name{
-		padding:10px;
-	}
-	.cancel-btn{
-		text-shadow:#fff 0px 1px;
-		box-shadow: 0px 0px 1px #444;
-	}
-	input[name='coursename'],.course-name{
-		text-shadow:#444 0px 2px;
-	}
-	input[name='topicname'],input[name='coursename']{
-		width: 50%;
-		height: 30px;
-	}
-	input[name='topicname']:focus,input[name='coursename']:focus{
-		outline:none;
+	#search_wrapper{
+		background:url('../image/search-2-icon.png') #fff no-repeat 99% center;
 	}
 	select{
 		width: 25%;
 		height: 25px;
 		padding: 2px 5px;
 		margin-right: 4px;
-	}
-	/*.center{
-		width:1000px;
-		margin: 0px auto;
-	}*/
-	#course_hirarchy{
-		height:30%;
-		box-shadow: inset 0px 0px 10px 2px #555;
-		overflow-y:scroll;
 	}
 	.left,.right{
 		overflow:hidden;
@@ -86,6 +37,9 @@
 	}
 	#lesson_list{
 		border-collapse: collapse;
+	}
+	#lesson_list tr:hover{
+		background-color: #E6F7FF;
 	}
 	#lesson_list tr:not(:last-child) td,#topic_list li, .border-bottom{
 		border-bottom: 1px solid #ccc;
@@ -126,6 +80,57 @@
 		background-position: left center;
 		background-size: 16px;
 	}
+	.post-date{
+		vertical-align:bottom;
+		text-align:right;
+	}
+
+	#create-btn-wrapper{
+		height:30px;
+	}
+	.create-btn{
+		padding: 10px 15px;
+		margin-right: 15px;
+	}
+	#delete_topic_btn{
+		background: url('../image/delete-icon.png') no-repeat 5px center;
+		padding-left:25px;
+	}
+	#add_topic_btn{
+		width: 55px;
+		margin: 10px;
+		padding-left:25px;
+		background:url('../image/add-icon.png') no-repeat 5px center;
+	}
+	.topic-name-wrapper{
+		height:30px;
+		margin:10px;
+		padding:0px 5px;
+		line-height:30px;
+	}
+	.course-name{
+		padding:10px;
+	}
+	.cancel-btn{
+		text-shadow:#fff 0px 1px;
+		box-shadow: 0px 0px 1px #444;
+	}
+	input[name='coursename'],.course-name{
+		text-shadow:#444 0px 2px;
+	}
+	input[name='topicname'],input[name='coursename']{
+		width: 50%;
+		height: 30px;
+	}
+	input[name='topicname']:focus,input[name='coursename']:focus{
+		outline:none;
+	}
+	#course_hirarchy{
+		height:30%;
+		box-shadow: inset 0px 0px 10px 2px #555;
+		overflow-y:scroll;
+	}
+	
 	.drop-box{
 		margin: 10px;
 		border: 1px dashed #939393;
@@ -138,9 +143,6 @@
 	.hi-add-more{
 		height: 50px;
 		line-height: 50px;
-	}
-	#lesson_list tr:hover{
-		background-color: #E6F7FF;
 	}
 	.topic-list-wrapper{
 		height: 70%;
@@ -165,9 +167,6 @@
 	}
 }
 @media all and (max-width: 840px){
-	.center{
-		width: 100%;
-	}
 	.lesson-image{
 		width: 50px;
 	}
