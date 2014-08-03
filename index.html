@@ -7,86 +7,84 @@
 	</head>
 	<body class="font m-0" ng-app="zaya" ng-controller="mainController">
 		<div id="top_header" class="w-100p"></div>
-		<div class="center">
-			<div id="left_section" class="left f-l bck-white transition" ng-controller="lessonController">
-				<div id="msg" class="w-100p bck-white font-bold font-dark-grey">Drag and drop lessons to create course</div>
-				<div id="search_wrapper" class="header border-bottom pad-5">
-					<select id="select_lesson" class="f-l b-1 font-dark-grey" ng-model="subject" ng-options="sub for sub in subjectList">
-						<option value="">All Subjects</option>
-					</select>
-					<select id="select_grade" class="f-l b-1 font-dark-grey" ng-model="grade" ng-options="grad for grad in gradeList">
-						<option value="">All Grades</option>
-					</select>
-				</div>
-				<div id="lesson_list_wrapper">
-					<table id="lesson_list" class="font w-100p">
-						<tbody>
-							<tr class="lesson" ng-repeat="row in lessonlist | filter:filterLesson" draggable="true">
-								<input name="id" type="hidden" value="{{ row.id }}">
-								<input name="subject" type="hidden" value="{{ row.subject }}">
-								<input name="grade" type="hidden" value="{{ row.grade }}">
-								<td class="lesson-image pad-5">
-									<div class="transition lesson-image-container b-r-5 b-1" style="background-image:url('image/lesson/{{row.imgFileName}}.{{row.imgType}}')"></div>
-								</td>
-								<td class="lesson-data pad-5">
-									<div class="wrap-lesson transition">
-										<div class="lesson-title font-bold font-dark-grey">{{ row.title }}</div>
-										<div class="lesson-brief font-dark-grey">{{ row.subject }} Grade {{ row.grade }} </div>
-									</div>
-									<ul class="lesson-metadata m-0">
-										<li class="lesson-video font-dark-grey" ng-show="row.noOfVideos">{{ row.noOfVideos }}</li>
-										<li class="lesson-document font-dark-grey" ng-show="row.noOfDocuments">{{ row.noOfDocuments }}</li>
-										<li class="lesson-question font-dark-grey" ng-show="row.noOfQuestions">{{ row.noOfQuestions }}</li>
-									</ul>
-								</td>
-								<td class="font-dark-grey f-r font-bold pad-5" style="vertical-align:bottom;text-align:right">
-									<i>{{ row.postDate }}</i>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+		<div id="left_section" class="left f-l bck-white transition" ng-controller="lessonController">
+			<div id="msg" class="w-100p bck-white font-bold font-dark-grey">Drag and drop lessons to create course</div>
+			<div id="search_wrapper" class="header border-bottom pad-5">
+				<select id="select_lesson" class="f-l b-1 font-dark-grey" ng-model="subject" ng-options="sub for sub in subjectList">
+					<option value="">All Subjects</option>
+				</select>
+				<select id="select_grade" class="f-l b-1 font-dark-grey" ng-model="grade" ng-options="grad for grad in gradeList">
+					<option value="">All Grades</option>
+				</select>
 			</div>
-			<div id="right_section" class="right f-l bck-light-grey transition" ng-controller="courseController">
-				<div class="header pad-5 border-bottom bck-dark-grey course-name font-bold font-light-grey">
-					New Course - <input type="text" name="coursename" ng-model="course.name" class="b-0 bck-dark-grey font-bold font-light-grey" placeholder="Course Name">
-					<button class="f-r b-r-5 c-p b-0 font-bold font-dark-grey pad-5 cancel-btn">Cancel</button>
-				</div>
-				<div class="border-bottom font-dark-grey font-bold cta-btn">	
-					Topics
-					<button id="delete_topic_btn" ng-click="deleteTopic()" class="f-r c-p b-0 pad-5">Delete</button>
-				</div>
-				<div class="topic-list-wrapper" class="w-100p">
-					<ol id="topic_list" class="m-0 w-100p pad-0 list-style-none">
-						<li ng-repeat="topic in course.topics">
-							<div class="topic-name-wrapper bck-white b-1">
-								<input type="checkbox" name="check_lesson" value="{{ $index }}"><input type="text" placeholder="Topic name" name="topicname" ng-model="topic.name" class="b-0 font-bold">
-							</div>
-							<ol class="list-style-none pad-0">
-								<li class="added-lessons list-style-none font-bold" ng-repeat="lesson in topic.lessonList track by $index">
-									{{ lesson.subject }}
-									<span class="delete_lesson_btn f-r c-p" ng-click="deleteLesson($parent.$index,lesson.id,$event)"></span>
-								</li>
-							</ol>
-							<div class="drop-box hi-drop-box font-bold font-dark-grey text-center" value="{{ $index }}">Drag and drop Lessons</div>
-						</li>	
-					</ol>
-					<button id="add_topic_btn" ng-click="addTopic()" class="b-0 c-p pad-5">Add</button>
-				</div>
-				<div id="create-btn-wrapper" class="w-100p pad-5">
-					<button class="f-r b-r-5 b-0 c-p bck-zaya-blue font-white font-bold create-btn">Create</button>
-				</div>
+			<div id="lesson_list_wrapper">
+				<table id="lesson_list" class="font w-100p">
+					<tbody>
+						<tr class="lesson" ng-repeat="row in lessonlist | filter:filterLesson" draggable="true">
+							<input name="id" type="hidden" value="{{ row.id }}">
+							<input name="subject" type="hidden" value="{{ row.subject }}">
+							<input name="grade" type="hidden" value="{{ row.grade }}">
+							<td class="lesson-image pad-5">
+								<div class="transition lesson-image-container b-r-5 b-1" style="background-image:url('image/lesson/{{row.imgFileName}}.{{row.imgType}}')"></div>
+							</td>
+							<td class="lesson-data pad-5">
+								<div class="wrap-lesson transition">
+									<div class="lesson-title font-bold font-dark-grey">{{ row.title }}</div>
+									<div class="lesson-brief font-dark-grey">{{ row.subject }} Grade {{ row.grade }} </div>
+								</div>
+								<ul class="lesson-metadata m-0">
+									<li class="lesson-video font-dark-grey" ng-show="row.noOfVideos">{{ row.noOfVideos }}</li>
+									<li class="lesson-document font-dark-grey" ng-show="row.noOfDocuments">{{ row.noOfDocuments }}</li>
+									<li class="lesson-question font-dark-grey" ng-show="row.noOfQuestions">{{ row.noOfQuestions }}</li>
+								</ul>
+							</td>
+							<td class="font-dark-grey font-bold pad-5 post-date">
+								<i>{{ row.postDate }}</i>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<div id="course_hirarchy" class="font-white pad-5 f-l w-100p bck-dark-grey">
-				<ol>
-					<lh class="font-bold">{{ course.name }}</lh>
-					<li ng-repeat="topic in course.topics"><strong>{{ topic.name }}</strong>
-						<ul>
-							<li ng-repeat="lesson in topic.lessonList track by $index">{{ lesson.subject }}</li>
-						</ul>
-					</li>
+		</div>
+		<div id="right_section" class="right f-l bck-light-grey transition" ng-controller="courseController">
+			<div class="header pad-5 border-bottom bck-dark-grey course-name font-bold font-light-grey">
+				New Course - <input type="text" name="coursename" ng-model="course.name" class="b-0 bck-dark-grey font-bold font-light-grey" placeholder="Course Name">
+				<button class="f-r b-r-5 c-p b-0 font-bold font-dark-grey pad-5 cancel-btn">Cancel</button>
+			</div>
+			<div class="border-bottom font-dark-grey font-bold cta-btn">	
+				Topics
+				<button id="delete_topic_btn" ng-click="deleteTopic()" class="f-r c-p b-0 pad-5">Delete</button>
+			</div>
+			<div class="topic-list-wrapper" class="w-100p">
+				<ol id="topic_list" class="m-0 w-100p pad-0 list-style-none">
+					<li ng-repeat="topic in course.topics">
+						<div class="topic-name-wrapper bck-white b-1">
+							<input type="checkbox" name="check_lesson" value="{{ $index }}"><input type="text" placeholder="Topic name" name="topicname" ng-model="topic.name" class="b-0 font-bold">
+						</div>
+						<ol class="list-style-none pad-0">
+							<li class="added-lessons list-style-none font-bold" ng-repeat="lesson in topic.lessonList track by $index">
+								{{ lesson.subject }}
+								<span class="delete_lesson_btn f-r c-p" ng-click="deleteLesson($parent.$index,lesson.id,$event)"></span>
+							</li>
+						</ol>
+						<div class="drop-box hi-drop-box font-bold font-dark-grey text-center" value="{{ $index }}">Drag and drop Lessons</div>
+					</li>	
 				</ol>
+				<button id="add_topic_btn" ng-click="addTopic()" class="b-0 c-p pad-5">Add</button>
 			</div>
+			<div id="create-btn-wrapper" class="w-100p pad-5">
+				<button class="f-r b-r-5 b-0 c-p bck-zaya-blue font-white font-bold create-btn">Create</button>
+			</div>
+		</div>
+		<div id="course_hirarchy" class="font-white pad-5 f-l w-100p bck-dark-grey">
+			<ol>
+				<lh class="font-bold">{{ course.name }}</lh>
+				<li ng-repeat="topic in course.topics"><strong>{{ topic.name }}</strong>
+					<ul>
+						<li ng-repeat="lesson in topic.lessonList track by $index">{{ lesson.subject }}</li>
+					</ul>
+				</li>
+			</ol>
 		</div>
 	</body>
 </html>
